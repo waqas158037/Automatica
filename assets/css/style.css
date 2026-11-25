@@ -688,3 +688,103 @@ button,input,select,textarea{font:inherit}
   .btn-ghost{padding:14px 20px}
 }
 html,main{overflow-x:clip}
+
+/* =========================================================
+   Hover polish: light sweep on images, smooth buttons, card glow
+   ========================================================= */
+.product-media,.sol-card .media,.post-card .media,.pd-media,.hv-frame,.project-card,.promo{position:relative;overflow:hidden}
+.split-media>img{position:relative;z-index:0}
+.product-media::after,.sol-card .media::after,.post-card .media::after,.pd-media::after,.hv-frame::after,.project-card::after,.split-media .shine{
+  content:"";position:absolute;top:0;left:0;width:60%;height:100%;z-index:2;pointer-events:none;
+  background:linear-gradient(105deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.08) 30%,rgba(255,255,255,.55) 50%,rgba(255,255,255,.08) 70%,rgba(255,255,255,0) 100%);
+  transform:translateX(-170%) skewX(-18deg);transition:transform 1.1s cubic-bezier(.19,1,.22,1)}
+.product:hover .product-media::after,.sol-card:hover .media::after,.post-card:hover .media::after,.pd-media:hover::after,.hv-frame:hover::after,.project-card:hover::after,.split-media:hover .shine{transform:translateX(260%) skewX(-18deg)}
+.split-media .shine{display:block;left:0;top:0;bottom:0;width:100%;overflow:hidden;border-radius:var(--radius-lg);background:none;transform:none}
+.split-media .shine::after{content:"";position:absolute;top:0;left:0;width:60%;height:100%;background:linear-gradient(105deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.08) 30%,rgba(255,255,255,.55) 50%,rgba(255,255,255,.08) 70%,rgba(255,255,255,0) 100%);transform:translateX(-170%) skewX(-18deg);transition:transform 1.1s cubic-bezier(.19,1,.22,1)}
+.split-media:hover .shine{transform:none}
+.split-media:hover .shine::after{transform:translateX(260%) skewX(-18deg)}
+.product-media img,.sol-card .media img,.post-card .media img,.pd-media img,.hv-frame img,.project-card img,.promo img,.split-media img{transition:transform 1s cubic-bezier(.19,1,.22,1),filter .6s ease}
+.product:hover .product-media img,.sol-card:hover .media img,.post-card:hover .media img,.pd-media:hover img,.hv-frame:hover img,.project-card:hover img,.promo:hover img,.split-media:hover img{filter:brightness(1.1) contrast(1.05) saturate(1.1)}
+.split-media:hover img{transform:scale(1.02)}
+.pd-media:hover img{transform:scale(1.05)}
+.hv-frame:hover img{transform:scale(1.04)!important}
+
+/* Soft glow that follows the cursor on cards (position set by JS) */
+.glow::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .4s;z-index:1;
+  background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(255,122,0,.14),transparent 45%)}
+.glow:hover::before{opacity:1}
+.feature.glow,.range-card.glow,.contact-card.glow,.trust-item.glow,.office.glow{position:relative}
+.range-card.glow::before{background:radial-gradient(380px circle at var(--mx,50%) var(--my,50%),rgba(255,160,60,.22),transparent 45%)}
+
+/* Buttons: smooth fill slide, lift, glow, shine and icon nudge on every style */
+.btn{transition:color .45s cubic-bezier(.19,1,.22,1),background-color .45s,border-color .45s,transform .45s cubic-bezier(.19,1,.22,1),box-shadow .45s}
+.btn::before{content:"";position:absolute;inset:-2px;z-index:-1;transform:scaleX(0);transform-origin:right;transition:transform .55s cubic-bezier(.19,1,.22,1)}
+.btn:hover::before{transform:scaleX(1);transform-origin:left}
+.btn:hover{transform:translateY(-3px)}
+.btn:active{transform:translateY(-1px) scale(.98)}
+.btn-accent{box-shadow:0 8px 22px rgba(255,122,0,.28)}
+.btn-accent::before{background:var(--primary)}
+.btn-accent:hover{box-shadow:0 14px 30px rgba(11,42,74,.35)}
+.btn-dark::before{background:var(--accent)}
+.btn-dark:hover{background:var(--primary);box-shadow:0 14px 30px rgba(255,122,0,.35)}
+.btn-outline::before{background:var(--accent)}
+.btn-outline:hover{background:transparent;color:#fff;border-color:var(--accent);box-shadow:0 14px 30px rgba(255,122,0,.3)}
+.btn-white::before{background:var(--accent)}
+.btn-white:hover{background:#fff;color:#fff;box-shadow:0 14px 30px rgba(0,0,0,.25)}
+.btn-ghost::before{background:#fff}
+.btn-ghost:hover{background:rgba(255,255,255,.04);color:var(--ink)}
+.btn::after{content:"";position:absolute;top:0;left:-80%;width:50%;height:100%;z-index:1;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);transition:left .8s cubic-bezier(.19,1,.22,1)}
+.btn:hover::after{left:130%}
+.btn svg{transition:transform .45s cubic-bezier(.19,1,.22,1)}
+.btn:hover svg{transform:translateX(4px)}
+.btn:hover svg:first-child:not(:last-child){transform:scale(1.15) rotate(-8deg)}
+.hero-arrows button,.social a,.product-actions>*,.to-top{transition:all .45s cubic-bezier(.19,1,.22,1)}
+.hero-arrows button:hover{transform:scale(1.08)}
+.to-top:hover{transform:translateY(-4px)}
+.wa-float{transition:transform .45s cubic-bezier(.19,1,.22,1)}
+.wa-float:hover{transform:scale(1.1) rotate(-6deg)}
+.link-arrow{transition:gap .4s cubic-bezier(.19,1,.22,1),color .3s}
+.link-arrow:hover{color:var(--accent)}
+.main-menu>li>a,.cat-list>li>a,.footer-links a{transition:all .35s cubic-bezier(.19,1,.22,1)}
+.cat-list>li>a:hover{background:var(--bg-soft);color:var(--accent);padding-left:26px}
+
+/* Section / card hover */
+.trust-item,.feature,.range-card,.contact-card,.sol-card,.post-card,.product,.office,.cert,.job,.widget{transition:transform .55s cubic-bezier(.19,1,.22,1),box-shadow .55s,border-color .4s,background-color .4s}
+.office:hover,.cert:hover,.widget:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.cert .ic{transition:background .4s}
+.cert:hover .ic{background:var(--accent)}
+.counter{transition:background .4s}
+.counter:hover{background:rgba(255,255,255,.04)}
+.counter .num b{transition:color .3s}
+.counter:hover .num b{color:var(--accent)}
+.brand-logo,.client{transition:all .45s cubic-bezier(.19,1,.22,1)}
+.client:hover{transform:scale(1.04);box-shadow:var(--shadow);z-index:1;position:relative}
+.member .media{transition:transform .5s cubic-bezier(.19,1,.22,1),box-shadow .5s}
+.member:hover .media{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+
+/* Inner page banner without photo */
+.page-hero.plain{background:radial-gradient(900px 400px at 85% 0%,#14406e 0%,transparent 60%),linear-gradient(135deg,#06121f,#0b2a4a)}
+.page-hero.plain::before{background:none;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:48px 48px}
+
+/* Team initials tiles */
+.avatar-tile{display:grid;place-items:center;background:linear-gradient(135deg,var(--primary),var(--primary-2));position:relative}
+.avatar-tile span{font-family:var(--font-head);font-size:54px;font-weight:700;color:#fff;letter-spacing:2px}
+.avatar-tile::after{content:"";position:absolute;inset:auto 0 0;height:6px;background:var(--accent)}
+
+/* WhatsApp bits */
+.wa-link{display:inline-flex;align-items:center;gap:5px;color:#16a34a}
+.wa-link svg{width:15px;height:15px}
+.wa-link:hover{color:var(--accent)}
+.oc-social{margin-top:12px}
+.oc-social a{border-color:var(--line);color:var(--ink)}
+.newsletter .btn-white{color:var(--ink)}
+.newsletter .btn-white:hover{color:#fff}
+
+/* Touch devices: no sticky hover lift */
+@media (hover:none){
+  .btn:hover,.product:hover,.sol-card:hover,.feature:hover,.post-card:hover{transform:none}
+}
+@media (max-width:767px){
+  .avatar-tile span{font-size:38px}
+  .product-meta{font-size:12px}
+}

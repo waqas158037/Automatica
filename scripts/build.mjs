@@ -33,6 +33,7 @@ const img = {
   logo(name, text) { if (realImg(name)) return realImg(name); write(`images/${name}.svg`, logoSvg(text)); return `/images/${name}.svg`; },
 };
 
+const waOrder = (name) => `https://wa.me/${site.whatsapp}?text=${encodeURIComponent("Hi Automatica, I want to order: " + name)}`;
 const catName = (slug) => categories.find((c) => c.slug === slug)?.name || "";
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
@@ -44,7 +45,7 @@ function topbar() {
   <ul class="topbar-usp">${usp.map((u, i) => `<li>${icon(["headset", "award", "star"][i])}${u}</li>`).join("")}</ul>
   <div class="topbar-right">
     <nav class="topbar-links"><a href="/support/">Services</a><a href="/faqs/">FAQs</a><a href="/company/careers/">Careers</a><a href="/contact-us/">Affiliate</a></nav>
-    <div class="topbar-social">${["facebook", "youtube", "linkedin", "instagram"].map((s) => `<a href="${site.social[s]}" aria-label="${s}">${icon(s)}</a>`).join("")}</div>
+    <div class="topbar-social">${["facebook", "instagram"].map((s) => `<a href="${site.social[s]}" target="_blank" rel="noopener" aria-label="${s}">${icon(s)}</a>`).join("")}</div>
   </div></div></div>`;
 }
 
@@ -83,7 +84,7 @@ ${topbar()}
     <ul class="cat-list">${categories.map((c) => `<li><a href="/products/?category=${c.slug}">${icon(c.icon)}${c.name}${icon("chevR", "chev")}</a><div class="sub">${c.subs.map((s) => `<a href="/products/?category=${c.slug}">${s}</a>`).join("")}</div></li>`).join("")}</ul>
   </div>
   <ul class="main-menu">${nav}</ul>
-  <div class="nav-right"><a href="mailto:${site.email}">${icon("mail")}${site.email}</a></div>
+  <div class="nav-right"><a href="https://wa.me/${site.whatsapp}" target="_blank" rel="noopener">${icon("whatsapp")}Order on WhatsApp</a></div>
 </div></nav>
 </header>`;
 }
@@ -99,24 +100,24 @@ function offcanvas() {
   <div class="oc-tabs"><button class="active" data-pane="oc-menu">Menu</button><button data-pane="oc-cats">Categories</button></div>
   <ul class="oc-pane active" id="oc-menu">${items}<li><a href="/get-a-quote/">Quotation List</a></li><li><a href="/faqs/">FAQs</a></li></ul>
   <ul class="oc-pane" id="oc-cats">${categories.map((c) => `<li><a href="/products/?category=${c.slug}">${c.name}</a></li>`).join("")}</ul>
-  <div class="oc-contact"><p><strong>Need help?</strong></p><p><a href="tel:${site.phoneHref}">${site.phone}</a></p><p><a href="mailto:${site.email}">${site.email}</a></p><p>${site.city}</p></div>
+  <div class="oc-contact"><p><strong>Need help?</strong></p><p><a href="https://wa.me/${site.whatsapp}" target="_blank" rel="noopener">WhatsApp: ${site.phone}</a></p><p><a href="mailto:${site.email}">${site.email}</a></p><p>${site.city}</p><div class="social oc-social">${["facebook", "instagram"].map((s) => `<a href="${site.social[s]}" target="_blank" rel="noopener" aria-label="${s}">${icon(s)}</a>`).join("")}</div></div>
 </aside></div>`;
 }
 
 function footer() {
   return `<section class="newsletter"><div class="container">
-  <div><h3>Subscribe to our Newsletter</h3><p>Get updated about our latest products, offers and projects.</p></div>
-  <form class="nl-form" data-mailto="${site.email}" data-subject="Newsletter subscription"><input type="email" name="email" required placeholder="Your email address" aria-label="Email"><button type="submit">Subscribe</button></form>
+  <div><h3>Order directly on WhatsApp</h3><p>Send us the product name and your site details, our team replies quickly.</p></div>
+  <a class="btn btn-white" href="https://wa.me/${site.whatsapp}?text=${encodeURIComponent("Hi Automatica, I want to place an order.")}" target="_blank" rel="noopener">${icon("whatsapp")} ${site.phone}</a>
 </div></section>
 <footer class="footer">
   <div class="container footer-top">
     <div class="footer-about">${logo(true)}<p>A company constantly on the move, with a vision for the future. Automatica delivers automation, security, access control and industrial solutions across Pakistan.</p>
-      <div class="social">${["facebook", "youtube", "linkedin", "instagram"].map((s) => `<a href="${site.social[s]}" aria-label="${s}">${icon(s)}</a>`).join("")}</div></div>
+      <div class="social">${["facebook", "instagram"].map((s) => `<a href="${site.social[s]}" target="_blank" rel="noopener" aria-label="${s}">${icon(s)}</a>`).join("")}</div></div>
     <div><h5>Quick Links</h5><ul class="footer-links"><li><a href="/">Home</a></li><li><a href="/products/">Products</a></li><li><a href="/solutions/">Solutions</a></li><li><a href="/projects/">Projects</a></li><li><a href="/get-a-quote/">Get a Quote</a></li></ul></div>
     <div><h5>Top Categories</h5><ul class="footer-links"><li><a href="/products/?category=automatic-entry-systems">Automatic Entrances</a></li><li><a href="/products/?category=industrial-doors">Industrial Doors</a></li><li><a href="/products/?category=physical-security-equipment">Physical Security</a></li><li><a href="/products/?category=loading-bay-equipment">Dock Levelers</a></li><li><a href="/products/?category=access-control-systems">Vehicle Access Management</a></li></ul></div>
     <div><h5>About Us</h5><ul class="footer-links"><li><a href="/company/about-us/">Who We Are</a></li><li><a href="/company/company-history/">Company History</a></li><li><a href="/faqs/">FAQs</a></li><li><a href="/support/">Support</a></li><li><a href="/contact-us/">Contact Us</a></li></ul></div>
     <div><h5>Quick Connect</h5><ul class="footer-contact">
-      <li>${icon("phone")}<div><strong>Phone</strong><a href="tel:${site.phoneHref}">${site.phone}</a></div></li>
+      <li>${icon("whatsapp")}<div><strong>WhatsApp / Call</strong><a href="https://wa.me/${site.whatsapp}" target="_blank" rel="noopener">${site.phone}</a></div></li>
       <li>${icon("mail")}<div><strong>Email</strong><a href="mailto:${site.email}">${site.email}</a></div></li>
       <li>${icon("pin")}<div><strong>Head Office</strong>${site.address}</div></li>
       <li>${icon("clock")}<div><strong>Hours</strong>${site.hours}</div></li></ul></div>
@@ -155,9 +156,9 @@ ${footer()}
 </body></html>`;
 }
 
-const pageHero = (title, crumbs, bg = "page-banner") => {
-  const src = img.scene(bg, "factory", title, 1600, 500, "right");
-  return `<section class="page-hero" style="background-image:url('${src}')"><div class="container"><h1>${title}</h1>
+const pageHero = (title, crumbs, bg = null) => {
+  const src = bg ? realImg(bg, 1920) : null;
+  return `<section class="page-hero${src ? "" : " plain"}"${src ? ` style="background-image:url('${src}')"` : ""}><div class="container"><h1>${title}</h1>
   <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a>${crumbs.map((c, i) => i === crumbs.length - 1 ? `<span>/</span><span>${c[0]}</span>` : `<span>/</span><a href="${c[1]}">${c[0]}</a>`).join("")}</nav></div></section>`;
 };
 
@@ -165,10 +166,10 @@ const productCard = (p, i = 0) => `<article class="product reveal fade-up" data-
   <div class="product-media">${p.badge ? `<span class="product-badge ${p.badge === "New" ? "new" : ""}">${p.badge}</span>` : ""}
     <a href="/product/${p.slug}/"><img src="${img.product(p)}" alt="${esc(p.name)}" loading="lazy" width="600" height="600"></a>
     <div class="product-actions"><button data-wish aria-label="Add to wishlist">${icon("heart")}</button><a href="/product/${p.slug}/" aria-label="Quick view">${icon("eye")}</a><button data-quote="${esc(p.name)}" aria-label="Add to quote">${icon("compare")}</button></div>
-    <div class="product-quote"><button class="btn btn-accent btn-sm" data-quote="${esc(p.name)}">Add to Quote</button></div>
+    <div class="product-quote"><a class="btn btn-accent btn-sm" href="${waOrder(p.name)}" target="_blank" rel="noopener">${icon("whatsapp")} Order on WhatsApp</a></div>
   </div>
   <div class="product-body"><span class="product-cat">${catName(p.cat)}</span><a class="product-title" href="/product/${p.slug}/">${p.name}</a>${stars(p.rating)}
-    <div class="product-meta"><span class="in-stock">In stock</span><a href="/product/${p.slug}/">Get Price</a></div></div>
+    <div class="product-meta"><span class="in-stock">In stock</span><a class="wa-link" href="${waOrder(p.name)}" target="_blank" rel="noopener">${icon("whatsapp")} Order</a></div></div>
 </article>`;
 
 const ctaBand = () => `<section class="section-sm"><div class="container"><div class="cta-band reveal zoom-in">
@@ -188,7 +189,7 @@ function home() {
   const entr = img.scene("banner-entrances", "dock", "Customized industrial entrances", 1200, 700, "right");
   const doors = img.scene("banner-doors", "steelDoor", "Industrial doors", 900, 700, "right");
   const pick = ["fire-rated-doors", "high-speed-pvc-roll-up-doors", "automatic-road-barrier", "hydraulic-road-blocker", "automatic-roller-shutter", "automatic-sliding-door-system", "dock-leveler", "wifi-sliding-gate-operator"].map((s) => products.find((p) => p.slug === s));
-  const doorProducts = products.filter((p) => p.cat === "industrial-doors").slice(0, 3);
+  const doorProducts = ["panic-escape-emergency-exit-doors", "stainless-steel-doors", "automatic-swing-door-system"].map((x) => products.find((p) => p.slug === x));
   const slides = [
     { bg: h1, k: "Automation · Security · Access", t: "Comprehensive Solutions for <em>Every Sector.</em>", p: "Automatic entrances, physical security, access control, safety and industrial products, designed, supplied and installed by Automatica.", b: ["Discover", "/products/"], tag: "h1", label: "Automatic Entrances", c1: ["15+", "Years of experience"], c2: ["headset", "After sales support", "Trained engineers"] },
     { bg: h2, k: "Access Control Systems", t: "Smart Vehicle <em>Access Management</em>", p: "E-Tag readers, boom barriers and parking systems that keep traffic moving and your site secure.", b: ["Explore Solutions", "/solutions/"], tag: "h2", label: "Vehicle Access", c1: ["12 m", "Hands-free E-Tag range"], c2: ["shieldCheck", "Secure entry", "Logs every vehicle"] },
@@ -197,7 +198,7 @@ function home() {
   const body = `
 <section class="hero" aria-label="Featured">
   <div class="hero-blob b1"></div><div class="hero-blob b2"></div>
-  <div class="hero-slides">${slides.map((s, i) => `<div class="hero-slide${i ? "" : " active"}"><div class="hero-bg" style="background-image:url('${s.bg}')"></div>
+  <div class="hero-slides">${slides.map((s, i) => `<div class="hero-slide${i ? "" : " active"}">
     <div class="container hero-grid">
       <div class="hero-content">
         <span class="hero-kicker">${s.k}</span><${s.tag}>${s.t}</${s.tag}><p>${s.p}</p>
@@ -227,7 +228,7 @@ function home() {
 </div></section>
 
 <section class="section"><div class="container split">
-  <div class="split-media reveal fade-left"><img src="${svc}" alt="Automatica service engineer" loading="lazy">
+  <div class="split-media reveal fade-left"><img src="${svc}" alt="Automatica service engineer" loading="lazy"><span class="shine"></span>
     <div class="badge-exp"><strong>15+</strong><span>Years of<br>Experience</span></div></div>
   <div class="reveal fade-right"><span class="sec-kicker">Why Automatica</span><h2 class="sec-title">Service is Our Top Priority.</h2>
     <p style="margin-top:18px">At Automatica we believe a product is only as good as the service behind it. From the first site survey to installation, training and after sales maintenance, our trained engineers stay with you so every gate, door and security system keeps working day after day.</p>
@@ -302,7 +303,7 @@ function newsCard(n, i) {
 
 /* ---------------- Products ---------------- */
 function productsPage() {
-  const body = `${pageHero("Products", [["Products"]])}
+  const body = `${pageHero("Products", [["Products"]], "banner-products")}
 <section class="section"><div class="container content-grid">
   <aside class="sidebar">
     <div class="widget"><h4>Product Categories</h4><a href="/products/" data-cat="">All Products <span>${products.length}</span></a>${categories.map((c) => `<a href="/products/?category=${c.slug}" data-cat="${c.slug}">${c.name}<span>${products.filter((p) => p.cat === c.slug).length}</span></a>`).join("")}</div>
@@ -347,7 +348,7 @@ function productsPage() {
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">${stars(p.rating)}<span class="in-stock">In stock</span></div>
     <p>${p.short}</p>
     <table class="spec">${Object.entries(p.specs).map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join("")}</table>
-    <div style="display:flex;gap:12px;flex-wrap:wrap"><button class="btn btn-accent" data-quote="${esc(p.name)}">Add to Quote ${icon("file")}</button><a class="btn btn-outline" href="https://wa.me/${site.whatsapp}?text=${encodeURIComponent("Hi, I'd like a price for " + p.name)}" target="_blank" rel="noopener">${icon("whatsapp")} WhatsApp</a></div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn btn-accent" href="${waOrder(p.name)}" target="_blank" rel="noopener">${icon("whatsapp")} Order on WhatsApp</a><button class="btn btn-outline" data-quote="${esc(p.name)}">${icon("file")} Add to Quote List</button></div>
     <ul class="checklist" style="margin-top:26px">${["Free site survey and consultation", "Installation by trained engineers", "Warranty and after sales support"].map((t) => `<li>${icon("check")}${t}</li>`).join("")}</ul>
   </div>
 </div></section>
@@ -359,7 +360,7 @@ function productsPage() {
 
 /* ---------------- Solutions ---------------- */
 function solutionsPages() {
-  const body = `${pageHero("Solutions", [["Solutions"]])}
+  const body = `${pageHero("Solutions", [["Solutions"]], "banner-solutions")}
 <section class="section"><div class="container">
   <div class="sec-head center reveal fade-up"><span class="sec-kicker">What We Do</span><h2 class="sec-title">Complete Solutions, Designed for You</h2><p class="sec-sub">From one gate to a full campus, we design, supply, install and support the whole system.</p></div>
   <div class="sol-grid">${solutions.map((s, i) => `<article class="sol-card reveal fade-up" data-delay="${(i % 3) * 120}"><a class="media" href="/solutions/${s.slug}/"><img src="${img.scene("solution-" + s.slug, s.art, s.name, 800, 500, "center")}" alt="${esc(s.name)}" loading="lazy"><span class="num">${String(i + 1).padStart(2, "0")}</span></a>
@@ -386,7 +387,7 @@ function solutionsPages() {
 
 /* ---------------- Projects ---------------- */
 function projectsPage() {
-  const body = `${pageHero("Our Projects", [["Projects"]])}
+  const body = `${pageHero("Our Projects", [["Projects"]], "banner-projects")}
 <section class="section"><div class="container">
   <div class="sec-head center reveal fade-up"><span class="sec-kicker">Portfolio</span><h2 class="sec-title">Recent Work Across Pakistan</h2></div>
   <div class="grid-3" id="projects-grid">${projects.map((p, i) => `<a class="project-card reveal fade-up" data-delay="${(i % 3) * 120}" href="/contact-us/"><img src="${img.scene("project-" + (i + 1), p.art, p.title, 800, 600, "center")}" alt="${esc(p.title)}" loading="lazy"><div class="pc-body"><small>${p.type}</small><h3>${p.title}</h3><span class="more">Details »</span></div></a>`).join("")}</div>
@@ -400,13 +401,13 @@ function companyPages() {
   const sub = (slug, title, inner, desc) => write(`company/${slug}/index.html`, layout({ title, desc, path: "/company/", body: `${pageHero(title, [["Company", "/company/"], [title]])}${inner}` }));
   const companyLinks = menu.find((m) => m.label === "Company").children();
 
-  write("company/index.html", layout({ title: "Company", path: "/company/", body: `${pageHero("Company", [["Company"]])}
+  write("company/index.html", layout({ title: "Company", path: "/company/", body: `${pageHero("Company", [["Company"]], "banner-company")}
 <section class="section"><div class="container"><div class="feature-grid">${companyLinks.map((l, i) => `<a class="feature reveal fade-up" data-delay="${(i % 3) * 120}" href="${l.href}"><div class="ic">${icon(["user", "clock", "target", "users", "globe", "award", "briefcase", "shieldCheck", "file"][i] || "star")}</div><h3>${l.label}</h3><p>Learn more about ${l.label.toLowerCase()} at ${site.name}.</p></a>`).join("")}</div></div></section>${ctaBand()}` }));
 
   const aboutImg = img.scene("about-service", "person", "Automatica engineer", 1000, 800, "center");
   sub("about-us", "About Us", `
 <section class="section"><div class="container split">
-  <div class="split-media reveal fade-left"><img src="${aboutImg}" alt="Automatica team at work" loading="lazy"><div class="badge-exp"><strong>95%</strong><span>Satisfied<br>Customers</span></div></div>
+  <div class="split-media reveal fade-left"><img src="${aboutImg}" alt="Automatica team at work" loading="lazy"><span class="shine"></span><div class="badge-exp"><strong>95%</strong><span>Satisfied<br>Customers</span></div></div>
   <div class="reveal fade-right"><span class="sec-kicker">Who We Are</span><h2 class="sec-title">A Journey of Passion, Purpose.</h2>
     <p style="margin-top:18px">Automatica started out as a service provider and grew, step by step, into one of the leading names in automatic entry systems, physical security and access control. Along the way we partnered with international brands and set up our own manufacturing and fabrication facility, so we can build products to fit each customer's site.</p>
     <p>Today, from our head office in Lahore, our engineers design, supply, install and maintain systems for factories, housing societies, hospitals, banks, universities and government organizations across Pakistan.</p>
@@ -427,7 +428,7 @@ ${ctaBand()}`);
   ${featureGrid([["shieldCheck", "Integrity", "We are honest with our customers about what they need and what it will cost."], ["star", "Quality", "We only supply and build products we would trust at our own sites."], ["headset", "Service First", "Service is our top priority, before, during and long after installation."], ["bulb", "Innovation", "We keep learning and bring the latest technology to our customers."], ["users", "Teamwork", "Our engineers, fabricators and sales team work as one to deliver."], ["clock", "Reliability", "We deliver on time and keep systems running with fast support."]])}</div></section>${ctaBand()}`);
 
   sub("our-team", "Our Team", `<section class="section"><div class="container"><div class="sec-head center reveal fade-up"><span class="sec-kicker">The people behind Automatica</span><h2 class="sec-title">Meet Our Team</h2></div>
-  <div class="team-grid">${[["Team Member", "Chief Executive Officer"], ["Team Member", "Director Operations"], ["Team Member", "Head of Sales"], ["Team Member", "Lead Engineer"], ["Team Member", "Project Manager"], ["Team Member", "Service Manager"], ["Team Member", "Fabrication Head"], ["Team Member", "Customer Support"]].map(([n, r], i) => `<div class="member reveal fade-up" data-delay="${(i % 4) * 100}"><div class="media"><img src="${img.scene("team-" + (i + 1), "person", r, 600, 750, "center")}" alt="${r}" loading="lazy"></div><h4>${n}</h4><p>${r}</p></div>`).join("")}</div></div></section>${ctaBand()}`);
+  <div class="team-grid">${[["Team Member", "Chief Executive Officer"], ["Team Member", "Director Operations"], ["Team Member", "Head of Sales"], ["Team Member", "Lead Engineer"], ["Team Member", "Project Manager"], ["Team Member", "Service Manager"], ["Team Member", "Fabrication Head"], ["Team Member", "Customer Support"]].map(([n, r], i) => `<div class="member reveal fade-up" data-delay="${(i % 4) * 100}"><div class="media avatar-tile"><span>${r.split(" ").map((w) => w[0]).join("").slice(0, 2)}</span></div><h4>${n}</h4><p>${r}</p></div>`).join("")}</div></div></section>${ctaBand()}`);
 
   sub("brand-partners", "Brand Partners", `<section class="section"><div class="container"><div class="sec-head center reveal fade-up"><span class="sec-kicker">Partners</span><h2 class="sec-title">Our Brand Partners</h2><p class="sec-sub">We work with trusted manufacturers from around the world to bring you proven products.</p></div>
   <div class="client-grid reveal fade-up" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr))">${brands.map((b) => `<div class="client">${b}</div>`).join("")}</div></div></section>${ctaBand()}`);
@@ -457,13 +458,13 @@ ${ctaBand()}`);
 /* ---------------- Support ---------------- */
 function supportPages() {
   const links = menu.find((m) => m.label === "Support").children();
-  write("support/index.html", layout({ title: "Support", path: "/support/", body: `${pageHero("Support", [["Support"]])}
+  write("support/index.html", layout({ title: "Support", path: "/support/", body: `${pageHero("Support", [["Support"]], "banner-support")}
 <section class="section"><div class="container"><div class="sec-head center reveal fade-up"><span class="sec-kicker">We're here to help</span><h2 class="sec-title">Customer Support</h2></div>
 <div class="feature-grid">${links.map((l, i) => `<a class="feature reveal fade-up" data-delay="${i * 120}" href="${l.href}"><div class="ic">${icon(["play", "headset", "shieldCheck"][i])}</div><h3>${l.label}</h3><p>${["See our products working before you buy, at our display center or at your site.", "Fast help from trained engineers by phone, WhatsApp or a site visit.", "Clear warranty terms and genuine spare parts for every product we supply."][i]}</p></a>`).join("")}</div></div></section>${ctaBand()}` }));
 
   const sub = (slug, title, inner) => write(`support/${slug}/index.html`, layout({ title, path: "/support/", body: `${pageHero(title, [["Support", "/support/"], [title]])}${inner}${ctaBand()}` }));
   sub("product-demonstration", "Product Demonstration", `<section class="section"><div class="container split">
-  <div class="split-media reveal fade-left"><img src="${img.scene("support-demo", "demo", "Product demonstration", 1000, 800, "center")}" alt="Product demonstration" loading="lazy"></div>
+  <div class="split-media reveal fade-left"><img src="${img.scene("support-demo", "demo", "Product demonstration", 1000, 800, "center")}" alt="Product demonstration" loading="lazy"><span class="shine"></span></div>
   <div class="reveal fade-right"><span class="sec-kicker">See it in action</span><h2 class="sec-title">Book a Product Demonstration</h2><p style="margin-top:16px">Visit our display center in Lahore to see automatic doors, gates, barriers and access control systems working live, or ask our team for an on-site demonstration.</p>
   <ul class="checklist" style="margin:20px 0 26px">${["Live demo of doors, gates and barriers", "Hands-on with access control and E-Tag readers", "Expert advice for your project"].map((t) => `<li>${icon("check")}${t}</li>`).join("")}</ul><a class="btn btn-accent" href="/contact-us/">Book a Demo ${icon("arrowR")}</a></div></div></section>`);
   sub("technical-support", "Technical Support", `<section class="section"><div class="container"><div class="contact-cards">
@@ -488,19 +489,19 @@ const faqHtml = ([q, a], i) => `<details class="reveal fade-up" ${i === 0 ? "ope
 
 /* ---------------- Contact, quote, FAQ, 404 ---------------- */
 function contactPage() {
-  const form = (quote = false) => `<form class="form" data-mailto="${site.email}" data-subject="${quote ? "Quotation request" : "Website enquiry"}" ${quote ? "data-clear-quote" : ""}>
+  const form = (quote = false) => `<form class="form" data-whatsapp="${site.whatsapp}" data-subject="${quote ? "Order / Quotation request" : "Website enquiry"}" ${quote ? "data-clear-quote" : ""}>
     <div><label for="f-name">Your Name *</label><input id="f-name" name="Name" required></div>
     <div><label for="f-phone">Phone *</label><input id="f-phone" name="Phone" type="tel" required></div>
-    <div><label for="f-email">Email *</label><input id="f-email" name="Email" type="email" required></div>
+    <div><label for="f-email">Email</label><input id="f-email" name="Email" type="email"></div>
     <div><label for="f-act">Activity</label><select id="f-act" name="Activity">${["Architect", "Builder", "Contractor", "Residential", "Distributor", "Reseller", "Other"].map((o) => `<option>${o}</option>`).join("")}</select></div>
     <div class="full"><label for="f-city">City</label><input id="f-city" name="City" value="Lahore"></div>
     <div class="full"><label for="${quote ? "quote-items" : "f-msg"}">${quote ? "Products & details" : "Message"} *</label><textarea id="${quote ? "quote-items" : "f-msg"}" name="Message" required></textarea></div>
-    <div class="full"><button class="btn btn-accent" type="submit">${quote ? "Send Quote Request" : "Send Message"} ${icon("arrowR")}</button><p class="form-note">Thank you! Your email app has opened with your message. Press send and our team will reply soon.</p></div>
+    <div class="full"><button class="btn btn-accent" type="submit">${icon("whatsapp")} ${quote ? "Send Order on WhatsApp" : "Send on WhatsApp"}</button><p class="form-note">WhatsApp has opened with your message. Press send and our team will reply soon.</p></div>
   </form>`;
 
-  write("contact-us/index.html", layout({ title: "Contact Us", path: "/contact-us/", body: `${pageHero("Contact Us", [["Contact Us"]])}
+  write("contact-us/index.html", layout({ title: "Contact Us", path: "/contact-us/", body: `${pageHero("Contact Us", [["Contact Us"]], "banner-contact")}
 <section class="section"><div class="container"><div class="contact-cards">
-  ${[["phone", "Sales Team", "Want to learn about the services that we offer? Reach out right now!", ["Call Us", `tel:${site.phoneHref}`]], ["whatsapp", "Online Support", "Talk to us today if you have any questions about our services!", ["Chat on WhatsApp", `https://wa.me/${site.whatsapp}`]], ["chat", "General Inquiries", "Have a question about your next business venture? Let's get started!", ["Chat With Us", `mailto:${site.email}`]]]
+  ${[["phone", "Sales Team", "Want to learn about the services that we offer? Reach out right now!", ["Call Us", `tel:${site.phoneHref}`]], ["whatsapp", "Online Support", "Talk to us today if you have any questions about our services!", ["Chat on WhatsApp", `https://wa.me/${site.whatsapp}`]], ["chat", "General Inquiries", "Have a question about your next business venture? Let's get started!", ["Email Us", `mailto:${site.email}`]]]
     .map(([ic, t, d, b], i) => `<div class="contact-card reveal fade-up" data-delay="${i * 120}"><div class="ic">${icon(ic)}</div><h3>${t}</h3><p>${d}</p><a class="btn btn-dark btn-sm" href="${b[1]}" ${b[1].startsWith("http") ? 'target="_blank" rel="noopener"' : ""}>${b[0]}</a></div>`).join("")}
 </div></div></section>
 <section class="section bg-soft"><div class="container grid-2">

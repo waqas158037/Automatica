@@ -4,13 +4,13 @@ export const site = {
   name: "Automatica",
   tagline: "Automation · Security · Access",
   email: "support@automatica.com",
-  phone: "+92 300 0000000", // TODO: replace with the client's real number
-  phoneHref: "+923000000000",
-  whatsapp: "923000000000", // TODO: replace with the client's WhatsApp number
+  phone: "+92 305 4068007",
+  phoneHref: "+923054068007",
+  whatsapp: "923054068007",
   city: "Lahore, Pakistan",
-  address: "Lahore, Punjab, Pakistan", // TODO: add full street address
+  address: "Lahore, Pakistan",
   hours: "Mon – Sat: 9:00 – 18:00",
-  social: { facebook: "#", youtube: "#", linkedin: "#", instagram: "#" },
+  social: { facebook: "https://www.facebook.com/automaticaofficial", instagram: "https://www.instagram.com/automatica_official" },
   description:
     "Comprehensive solutions for every sector. Discover a wide range of automation, security, access control, safety and industrial products from Automatica, Lahore.",
 };

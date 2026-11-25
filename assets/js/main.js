@@ -183,7 +183,20 @@
     ql.value = list.length ? "Quotation request for:\n- " + list.join("\n- ") + "\n\n" : "";
   }
 
-  /* ---- Forms (static site: opens the visitor's mail app) ---- */
+  /* ---- Forms: send to WhatsApp ---- */
+  $$("form[data-whatsapp]").forEach((f) =>
+    f.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const lines = ["*" + (f.dataset.subject || "Website enquiry") + "*"];
+      new FormData(f).forEach((v, k) => { if (String(v).trim()) lines.push(k + ": " + v); });
+      window.open("https://wa.me/" + f.dataset.whatsapp + "?text=" + encodeURIComponent(lines.join("\n")), "_blank", "noopener");
+      const note = $(".form-note", f);
+      if (note) note.classList.add("show");
+      if (f.dataset.clearQuote) { write([]); paint(); }
+    })
+  );
+
+  /* ---- Forms (mail fallback) ---- */
   $$("form[data-mailto]").forEach((f) =>
     f.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -197,6 +210,18 @@
       if (f.dataset.clearQuote) { write([]); paint(); }
     })
   );
+
+  /* ---- Cursor glow on cards ---- */
+  if (window.matchMedia("(hover:hover)").matches) {
+    $$(".feature, .range-card, .contact-card, .trust-item, .office").forEach((el) => {
+      el.classList.add("glow");
+      el.addEventListener("mousemove", (e) => {
+        const r = el.getBoundingClientRect();
+        el.style.setProperty("--mx", e.clientX - r.left + "px");
+        el.style.setProperty("--my", e.clientY - r.top + "px");
+      });
+    });
+  }
 
   /* ---- Year ---- */
   $$(".yr-now").forEach((y) => (y.textContent = new Date().getFullYear()));
