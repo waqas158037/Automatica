@@ -4,6 +4,7 @@ import { mkdirSync, writeFileSync, cpSync, rmSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { site, usp, categories, products, solutions, projects, brands, menu, news } from "./data.mjs";
+import { photoUrl } from "./photos.mjs";
 import { icon, stars } from "./icons.mjs";
 import { productSvg, sceneSvg, logoSvg } from "./illustrations.mjs";
 
@@ -22,10 +23,13 @@ const write = (path, html) => {
 
 /* ---------------- Images (generated placeholders) ---------------- */
 // If a real photo exists in /static/images/<name>.jpg it is used instead (see README).
-const realImg = (name) => existsSync(join(ROOT, "static", "images", name + ".jpg")) ? `/images/${name}.jpg` : null;
+const realImg = (name, w) => {
+  if (existsSync(join(ROOT, "static", "images", name + ".jpg"))) return `/images/${name}.jpg`;
+  return photoUrl(name, w);
+};
 const img = {
-  product(p) { const n = `product-${p.slug}`; if (realImg(n)) return realImg(n); write(`images/${n}.svg`, productSvg(p.art, p.name)); return `/images/${n}.svg`; },
-  scene(name, art, label, w, h, align) { if (realImg(name)) return realImg(name); write(`images/${name}.svg`, sceneSvg(art, label, w, h, align)); return `/images/${name}.svg`; },
+  product(p) { const n = `product-${p.slug}`; write(`images/${n}.svg`, productSvg(p.art, p.name)); return realImg(n, 900) || `/images/${n}.svg`; },
+  scene(name, art, label, w, h, align) { write(`images/${name}.svg`, sceneSvg(art, label, w, h, align)); return realImg(name, w >= 1400 ? 1920 : 1100) || `/images/${name}.svg`; },
   logo(name, text) { if (realImg(name)) return realImg(name); write(`images/${name}.svg`, logoSvg(text)); return `/images/${name}.svg`; },
 };
 
@@ -139,7 +143,9 @@ function layout({ title, desc = site.description, path, body }) {
 <link rel="icon" href="/favicon.png" type="image/png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://images.pexels.com">
 <link rel="stylesheet" href="/assets/css/style.css">
+<script>document.addEventListener("error",function(e){var t=e.target;if(t.tagName==="IMG"&&t.src.indexOf("#")>-1){var s=t.src.split("#")[1];if(s){t.src="/images/"+s+".svg";}}},true);</script>
 </head><body>
 ${header(path)}
 ${offcanvas()}
@@ -184,19 +190,28 @@ function home() {
   const pick = ["fire-rated-doors", "high-speed-pvc-roll-up-doors", "automatic-road-barrier", "hydraulic-road-blocker", "automatic-roller-shutter", "automatic-sliding-door-system", "dock-leveler", "wifi-sliding-gate-operator"].map((s) => products.find((p) => p.slug === s));
   const doorProducts = products.filter((p) => p.cat === "industrial-doors").slice(0, 3);
   const slides = [
-    { bg: h1, k: "Automation · Security · Access", t: "Comprehensive Solutions for <em>Every Sector.</em>", p: "Automatic entrances, physical security, access control, safety and industrial products, designed, supplied and installed by Automatica." , b: ["Discover", "/products/"], tag: "h1" },
-    { bg: h2, k: "Access Control Systems", t: "Smart Vehicle <em>Access Management</em>", p: "E-Tag readers, boom barriers and parking systems that keep traffic moving and your site secure.", b: ["Explore Solutions", "/solutions/"], tag: "h2" },
-    { bg: h3, k: "Loading Bay Equipment", t: "Dock Levelers Built <em>Up to 12 Tons</em>", p: "Custom manufactured loading bay equipment for warehouses, factories and cold stores.", b: ["Discover Now", "/solutions/loading-bay-solution/"], tag: "h2" },
+    { bg: h1, k: "Automation · Security · Access", t: "Comprehensive Solutions for <em>Every Sector.</em>", p: "Automatic entrances, physical security, access control, safety and industrial products, designed, supplied and installed by Automatica.", b: ["Discover", "/products/"], tag: "h1", label: "Automatic Entrances", c1: ["15+", "Years of experience"], c2: ["headset", "After sales support", "Trained engineers"] },
+    { bg: h2, k: "Access Control Systems", t: "Smart Vehicle <em>Access Management</em>", p: "E-Tag readers, boom barriers and parking systems that keep traffic moving and your site secure.", b: ["Explore Solutions", "/solutions/"], tag: "h2", label: "Vehicle Access", c1: ["12 m", "Hands-free E-Tag range"], c2: ["shieldCheck", "Secure entry", "Logs every vehicle"] },
+    { bg: h3, k: "Loading Bay Equipment", t: "Dock Levelers Built <em>Up to 12 Tons</em>", p: "Custom manufactured loading bay equipment for warehouses, factories and cold stores.", b: ["Discover Now", "/solutions/loading-bay-solution/"], tag: "h2", label: "Loading Bay", c1: ["12 T", "Load capacity"], c2: ["wrench", "Custom built", "Made to your size"] },
   ];
   const body = `
 <section class="hero" aria-label="Featured">
+  <div class="hero-blob b1"></div><div class="hero-blob b2"></div>
   <div class="hero-slides">${slides.map((s, i) => `<div class="hero-slide${i ? "" : " active"}"><div class="hero-bg" style="background-image:url('${s.bg}')"></div>
-    <div class="container" style="height:100%"><div class="hero-content">
-      <span class="hero-kicker">${s.k}</span><${s.tag}>${s.t}</${s.tag}><p>${s.p}</p>
-      <div class="rating">${stars(5)}<span><strong>4.9 rated</strong> – over 4,000+ satisfied customers</span></div>
-      <div><a class="btn btn-accent" href="${s.b[1]}">${s.b[0]} ${icon("arrowR")}</a></div>
-    </div></div></div>`).join("")}</div>
-  <div class="hero-nav"><div class="container"><div class="hero-dots">${slides.map((_, i) => `<button aria-label="Slide ${i + 1}"></button>`).join("")}</div>
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <span class="hero-kicker">${s.k}</span><${s.tag}>${s.t}</${s.tag}><p>${s.p}</p>
+        <div class="hero-btns"><a class="btn btn-accent" href="${s.b[1]}">${s.b[0]} ${icon("arrowR")}</a><a class="btn btn-ghost" href="/get-a-quote/">${icon("file")} Get a Quote</a></div>
+        <div class="rating"><span class="avatars"><i>A</i><i>M</i><i>S</i><i>+</i></span><span>${stars(5)}<span><strong>4.9 rated</strong> – 4,000+ satisfied customers</span></span></div>
+      </div>
+      <div class="hero-visual">
+        <div class="hv-frame"><img src="${s.bg}" alt="${esc(s.label)}" ${i ? 'loading="lazy"' : ""}></div>
+        <div class="hv-card c1"><strong>${s.c1[0]}</strong><span>${s.c1[1]}</span></div>
+        <div class="hv-card c2"><span class="ic">${icon(s.c2[0])}</span><div><strong>${s.c2[1]}</strong><span>${s.c2[2]}</span></div></div>
+        <div class="hv-ring"></div>
+      </div>
+    </div></div>`).join("")}</div>
+  <div class="hero-nav"><div class="container"><div class="hero-tabs">${slides.map((s, i) => `<button aria-label="Slide ${i + 1}"><b>0${i + 1}</b><span>${s.label}</span></button>`).join("")}</div>
     <div class="hero-arrows"><button class="hero-prev" aria-label="Previous">${icon("arrowL")}</button><button class="hero-next" aria-label="Next">${icon("arrowR")}</button></div></div></div>
   <div class="hero-progress"></div>
 </section>

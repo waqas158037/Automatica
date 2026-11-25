@@ -64,7 +64,7 @@
   const hero = $(".hero");
   if (hero) {
     const slides = $$(".hero-slide", hero);
-    const dots = $$(".hero-dots button", hero);
+    const dots = $$(".hero-dots button, .hero-tabs button", hero);
     const prog = $(".hero-progress", hero);
     let idx = 0, timer;
     const go = (n) => {

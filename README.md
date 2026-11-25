@@ -35,7 +35,7 @@ Run `npm run build` after editing (Vercel does this on deploy too).
 | Stats (1,200+ projects, 4,000+ clients...), "4.9 rated", ISO 9001:2015 claim | `home()` and `about-us` in `scripts/build.mjs` — confirm these are true for Automatica |
 
 ## Images
-All images are generated SVG illustrations (no licensed stock photos are shipped).
+Photos are listed in `scripts/photos.mjs`. Most are free Pexels photos (free for commercial use, https://www.pexels.com/license/) loaded from images.pexels.com. If a photo ever fails to load, the page swaps in a generated illustration automatically.
 To use a real photo, save it as JPG in `static/images/` with the same name as the generated file, e.g.
 
 - `static/images/hero-1.jpg`, `hero-2.jpg`, `hero-3.jpg` (home slider, 1920×900)

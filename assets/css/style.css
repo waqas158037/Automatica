@@ -570,8 +570,6 @@ button,input,select,textarea{font:inherit}
   .mobile-bar{display:block}
   .to-top{bottom:78px;right:16px}
   .wa-float{bottom:78px;left:16px;width:48px;height:48px}
-  .hero-slides{height:620px}
-  .hero-content{justify-content:flex-end;padding-bottom:90px}
   .hero p{font-size:15px}
   .rating{flex-wrap:wrap;gap:6px;margin-bottom:22px}
   .hero-slide::after{background:linear-gradient(0deg,rgba(6,18,32,.92) 10%,rgba(6,18,32,.45))}
@@ -610,3 +608,83 @@ button,input,select,textarea{font:inherit}
   .product-actions{top:8px;right:8px}
   .header-actions .hicon:nth-child(2){display:none}
 }
+
+/* ---------- Hero v2 (split layout with photo frame) ---------- */
+.hero{background:radial-gradient(1200px 600px at 85% 20%,#14406e 0%,transparent 60%),linear-gradient(135deg,#06121f 0%,#0b2a4a 100%)}
+.hero-slides{height:auto;min-height:680px}
+.hero-slide{display:flex;align-items:center}
+.hero-slide.active{position:relative}
+.hero-bg{opacity:.18;filter:blur(2px) saturate(.8)}
+.hero-slide::after{background:linear-gradient(90deg,rgba(6,18,32,.96) 0%,rgba(6,18,32,.75) 50%,rgba(6,18,32,.35) 100%)}
+.hero::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:56px 56px;mask-image:linear-gradient(180deg,#000,transparent 85%)}
+.hero-blob{position:absolute;border-radius:50%;filter:blur(70px);z-index:1;pointer-events:none;animation:blob 14s ease-in-out infinite alternate}
+.hero-blob.b1{width:420px;height:420px;background:rgba(255,122,0,.22);right:8%;top:-120px}
+.hero-blob.b2{width:360px;height:360px;background:rgba(40,120,220,.25);left:-120px;bottom:-140px;animation-delay:-6s}
+@keyframes blob{to{transform:translate(60px,40px) scale(1.15)}}
+.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center;padding-top:80px;padding-bottom:150px}
+.hero-content{height:auto;max-width:620px}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:34px}
+.btn-ghost{border-color:rgba(255,255,255,.35);color:#fff;background:rgba(255,255,255,.04);backdrop-filter:blur(6px)}
+.btn-ghost:hover{background:#fff;color:var(--ink);border-color:#fff}
+.rating{margin-bottom:0}
+.rating>span:last-child{display:flex;flex-direction:column;gap:2px}
+.avatars{display:flex}
+.avatars i{width:40px;height:40px;border-radius:50%;border:2px solid var(--dark);display:grid;place-items:center;font-style:normal;font-weight:700;font-size:14px;color:#fff;margin-left:-10px;background:linear-gradient(135deg,var(--accent),#ffb347)}
+.avatars i:first-child{margin-left:0}
+.avatars i:nth-child(2){background:linear-gradient(135deg,#2563eb,#60a5fa)}
+.avatars i:nth-child(3){background:linear-gradient(135deg,#16a34a,#4ade80)}
+.avatars i:nth-child(4){background:#fff;color:var(--ink)}
+.hero-visual{position:relative;justify-self:end;width:100%;max-width:560px;aspect-ratio:1/1.02}
+.hero-visual>*{opacity:0}
+.hv-frame{position:absolute;inset:0 0 0 8%;border-radius:28px 140px 28px 28px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.45);border:6px solid rgba(255,255,255,.08);clip-path:inset(0 0 100% 0 round 28px)}
+.hv-frame img{width:100%;height:100%;object-fit:cover;transform:scale(1.15);transition:transform 6s linear}
+.hero-slide.active .hv-frame{opacity:1;animation:reveal 1.2s .3s var(--ease) forwards}
+.hero-slide.active .hv-frame img{transform:scale(1)}
+@keyframes reveal{to{clip-path:inset(0 0 0 0 round 28px 140px 28px 28px)}}
+.hv-ring{position:absolute;width:160px;height:160px;border:2px dashed rgba(255,122,0,.6);border-radius:50%;right:-40px;bottom:-30px;z-index:-1;animation:spin 22s linear infinite}
+.hero-slide.active .hv-ring{opacity:1;transition:opacity 1s}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hv-card{position:absolute;background:rgba(255,255,255,.96);color:var(--ink);border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.3);padding:16px 20px;display:flex;gap:12px;align-items:center;z-index:3}
+.hv-card strong{display:block;font-family:var(--font-head);font-size:16px;line-height:1.2}
+.hv-card span{font-size:12.5px;color:var(--muted)}
+.hv-card.c1{left:0;top:16%;flex-direction:column;align-items:flex-start;gap:0;background:var(--accent);color:#fff}
+.hv-card.c1 strong{font-size:34px;color:#fff}
+.hv-card.c1 span{color:#fff6ec}
+.hv-card.c2{right:-10px;bottom:12%}
+.hv-card .ic{width:44px;height:44px;border-radius:12px;background:rgba(255,122,0,.12);color:var(--accent);display:grid;place-items:center;flex:none}
+.hv-card .ic svg{width:22px;height:22px}
+.hero-slide.active .hv-card.c1{animation:cardIn .8s 1s var(--ease) forwards,floaty 5s 1.8s ease-in-out infinite}
+.hero-slide.active .hv-card.c2{animation:cardIn .8s 1.25s var(--ease) forwards,floaty 6s 2s ease-in-out infinite}
+@keyframes cardIn{from{opacity:0;transform:translateY(30px) scale(.9)}to{opacity:1;transform:none}}
+.hero-nav{bottom:0}
+.hero-nav .container{align-items:stretch}
+.hero-tabs{display:flex;gap:0;border-top:1px solid rgba(255,255,255,.12)}
+.hero-tabs button{background:none;border:0;color:rgba(255,255,255,.55);padding:22px 34px 26px 0;margin-right:34px;text-align:left;cursor:pointer;position:relative;display:flex;gap:12px;align-items:baseline;font:inherit;transition:color .3s}
+.hero-tabs button b{font-family:var(--font-head);font-size:14px;color:var(--accent)}
+.hero-tabs button span{font-weight:600;font-size:14.5px}
+.hero-tabs button::before{content:"";position:absolute;left:0;top:-1px;height:3px;width:0;background:var(--accent);transition:width .5s var(--ease)}
+.hero-tabs button.active{color:#fff}
+.hero-tabs button.active::before{width:100%}
+.hero-arrows{align-self:center}
+.hero-progress{display:none}
+@media (max-width:1024px){
+  .hero-grid{grid-template-columns:1fr;gap:40px;padding-top:60px;padding-bottom:120px}
+  .hero-visual{justify-self:center;max-width:520px;aspect-ratio:4/3.4}
+  .hero-slides{min-height:0}
+}
+@media (max-width:767px){
+  .hero-grid{padding-top:44px;padding-bottom:100px;gap:34px}
+  .hero-content{padding-bottom:0}
+  .hero-visual{aspect-ratio:1/1}
+  .hv-frame{inset:0;border-radius:20px 80px 20px 20px}
+  @keyframes reveal{to{clip-path:inset(0 0 0 0 round 20px 80px 20px 20px)}}
+  .hv-card{padding:12px 14px}
+  .hv-card.c1{left:-6px;top:auto;bottom:-14px}
+  .hv-card.c1 strong{font-size:24px}
+  .hv-card.c2{right:-6px;bottom:auto;top:14px}
+  .hv-ring{display:none}
+  .hero-tabs button{padding:16px 0 18px;margin-right:20px}
+  .hero-tabs button span{display:none}
+  .btn-ghost{padding:14px 20px}
+}
+html,main{overflow-x:clip}
